@@ -27,8 +27,12 @@ A simple service to parse the git log of an application to a readable changelog.
        EpicArrow\GitChangeLog\Providers\GitChangeLogServiceProvider::class
     ]
     ```
+
 ### Documentation
 The following services are currently available:
+
+___
+
 ```php 
 EpicArrow\GitChangeLog\GitChangeLog::get([int $count = 10])
 ``` 
