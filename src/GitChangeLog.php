@@ -16,7 +16,8 @@ use EpicArrow\GitChangeLog\Models\Commit;
 class GitChangeLog {
 
     /**
-     * Fetches the latest unique git commits.
+     * Fetches the latest unique git commits. If two contiguous commits have the same commit message only one commit
+     * will be retrieved.
      *
      * @param int $count The number of results to retrieve.
      *

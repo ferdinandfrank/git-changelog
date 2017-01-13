@@ -2,15 +2,15 @@
 
 A simple service to parse the git log of an application to a readable changelog.
 
-### Requirements
-##### Mandatory Requirements
+## Requirements
+#### Mandatory Requirements
 - [PHP](https://php.net) >= 5.6.4
 - [Carbon](http://carbon.nesbot.com/) >= 1.18: Used to format the date of the git commits
 
-##### Optional Requirements
+#### Optional Requirements
 - An existing [Laravel 5.3](https://laravel.com/docs/master/installation) project to use the global view variable `$gitVersion`
 
-### Installation
+## Installation
 
 1. To get started, install the Git ChangeLog service via the Composer package manager: 
 
@@ -28,15 +28,16 @@ A simple service to parse the git log of an application to a readable changelog.
     ]
     ```
 
-### Documentation
+## Documentation
+### Services
 The following services are currently available:
 
-___
 
 ```php 
 EpicArrow\GitChangeLog\GitChangeLog::get([int $count = 10])
 ``` 
-Fetches the latest unique git commits.
+Fetches the latest unique git commits. If two contiguous commits have the same commit message only one commit will be
+retrieved.
 
 **Parameters:**
 - `$count` (_int_): The number of results to retrieve.
@@ -55,3 +56,8 @@ Gets the latest version of the git repository.
 **Return Values:**
 
 The retrieved latest version of the git repository as a `string` or `null` if no version exists.
+
+### Global Variables
+If you are using Laravel and you've registered the `GitChangeLogServiceProvider` within your `config/app.php` providers array
+you can access the following variables from every blade view:
+- `$gitVersion`: Corresponds to the service `EpicArrow\GitChangeLog\GitChangeLog::version()` and gets you the latest version of the git repository.
