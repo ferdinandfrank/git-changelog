@@ -32,6 +32,7 @@ A simple service to parse the git log of an application to a readable changelog.
 ### Services
 The following services are currently available:
 
+___
 
 ```php 
 EpicArrow\GitChangeLog\GitChangeLog::get([int $count = 10])
@@ -56,6 +57,8 @@ Gets the latest version of the git repository.
 **Return Values:**
 
 The retrieved latest version of the git repository as a `string` or `null` if no version exists.
+
+___
 
 ### Global Variables
 If you are using Laravel and you've registered the `GitChangeLogServiceProvider` within your `config/app.php` providers array
