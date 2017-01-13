@@ -64,3 +64,12 @@ ___
 If you are using Laravel and you've registered the `GitChangeLogServiceProvider` within your `config/app.php` providers array
 you can access the following variables from every blade view:
 - `$gitVersion`: Corresponds to the service `EpicArrow\GitChangeLog\GitChangeLog::version()` and gets you the latest version of the git repository.
+
+### The commit model `EpicArrow\GitChangeLog\Models\Commit`
+When retrieving the latest git commit through this service you will get an `array` of `EpicArrow\GitChangeLog\Models\Commit`s. This model has the following properties:
+- `$id`(_string_): The commit hash/id
+- `$date`(_Carbon\Carbon_): The date of the commit
+- `$message`(_string_): The commit message
+- `$author`(_string_): The author of the commit
+- `$merge`(_string_): The merge info of the commit
+
