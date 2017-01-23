@@ -23,14 +23,56 @@ class GitChangeLog {
      *
      * @return array The retrieved commits.
      */
-    public static function get($count = 10) {
-        $output = [];
-        exec("git log -$count", $output);
+    public static function get($count = null) {
 
-        return self::parseLog($output);
+        // Retrieve all published tags
+        $tags = [];
+        exec("git tag", $output);
+        foreach ($output as $tag) {
+            array_push($tags, $tag);
+        }
+
+        // Create count option
+        $countStmt = $count ? "-$count" : '';
+
+        // If no tags found return normal log
+        if (sizeof($tags) < 1) {
+            $output = [];
+            exec("git log -$count", $output);
+            return self::parseLog($output);
+        }
+
+        // Add empty tag for commits without tag
+        array_push($tags, '');
+
+        // Reverse the tag array to get the latest first
+        $tags = array_reverse($tags);
+
+        $changelog = [];
+        for ($i = 0; $i < sizeof($tags); $i++) {
+            $version = $tags[$i];
+
+            $versionStmt = $version;
+            if ($i != sizeof($tags) - 1) {
+                $prevVersion = $tags[$i+1];
+                $versionStmt = "$prevVersion..$version";
+            }
+
+            exec("git log $countStmt $versionStmt", $output);
+            $parsedLog = self::parseLog($output, $version);
+            $changelog = array_merge($changelog, $parsedLog);
+
+            if ($count && sizeof($changelog) >= $count) {
+                break;
+            }
+
+            unset($output);
+        }
+
+        return $changelog;
     }
 
-    private static function parseLog($log) {
+    private static function parseLog($log, $version = null) {
         $changelog = [];
 
         $commit = new Commit();
@@ -53,8 +95,17 @@ class GitChangeLog {
                     $commit = new Commit();
                 }
                 $commit->id = substr($line, strlen('commit') + 1);
+                $commit->version = $version;
             } else if (strpos($line, 'Author') === 0) {
-                $commit->author = substr($line, strlen('Author:') + 1);
+
+                // Separate author name and email address
+                $authorInfo = explode(" ", substr($line, strlen('Author:') + 1));
+
+                $commit->author = $authorInfo[0];
+
+                // Remove leading and trailing bracket from the email address
+                $commit->email = substr($authorInfo[1], 1, -1);
+
             } else if (strpos($line, 'Date') === 0) {
                 $commit->date = \Carbon\Carbon::parse(substr($line, strlen('Date:') + 3));
             } elseif (strpos($line, 'Merge') === 0) {

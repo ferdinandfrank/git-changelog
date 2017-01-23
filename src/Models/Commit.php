@@ -38,11 +38,18 @@ class Commit {
     public $message;
 
     /**
-     * The author of the commit.
+     * The author's name of the commit.
      *
      * @var string
      */
     public $author;
+
+    /**
+     * The author's email address of the commit.
+     *
+     * @var string
+     */
+    public $email;
 
     /**
      * The merge info of the commit.
@@ -50,5 +57,12 @@ class Commit {
      * @var string
      */
     public $merge;
+
+    /**
+     * The version of the commit.
+     *
+     * @var string
+     */
+    public $version;
 
 }

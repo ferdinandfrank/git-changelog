@@ -35,7 +35,7 @@ The following services are currently available:
 ___
 
 ```php 
-EpicArrow\GitChangeLog\GitChangeLog::get([int $count = 10])
+EpicArrow\GitChangeLog\GitChangeLog::get([int $count = null])
 ``` 
 Fetches the latest unique git commits. If two contiguous commits have the same commit message only one commit will be
 retrieved.
@@ -70,6 +70,8 @@ When retrieving the latest git commit through this service you will get an `arra
 - `$id`(_string_): The commit hash/id
 - `$date`(_Carbon\Carbon_): The date of the commit
 - `$message`(_string_): The commit message
+- `$version`(_string|null_): The version (tag) the commit belongs to
 - `$author`(_string_): The author of the commit
-- `$merge`(_string_): The merge info of the commit
+- `$email`(_string_): The author's email address of the commit
+- `$merge`(_string|null_): The merge info of the commit
 
