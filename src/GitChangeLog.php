@@ -38,7 +38,7 @@ class GitChangeLog {
         // If no tags found return normal log
         if (sizeof($tags) < 1) {
             $output = [];
-            exec("git log -$count", $output);
+            exec("git log $countStmt", $output);
             return self::parseLog($output);
         }
 
@@ -57,6 +57,9 @@ class GitChangeLog {
                 $prevVersion = $tags[$i+1];
                 $versionStmt = "$prevVersion..$version";
             }
+
+            // Adapt result count to number of retrieved results
+            $countStmt = $count ? "-" . $count - sizeof($changelog) : '';
 
             exec("git log $countStmt $versionStmt", $output);
             $parsedLog = self::parseLog($output, $version);
