@@ -114,7 +114,7 @@ class GitChangeLog {
             } elseif (strpos($line, 'Merge') === 0) {
                 $commit->merge = substr($line, strlen('Merge:') + 1);
                 $commit->merge = explode(' ', $commit->merge);
-            } else {
+            } else if ($commit->id) {
                 $commit->message .= $line;
             }
         }
