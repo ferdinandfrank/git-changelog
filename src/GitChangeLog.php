@@ -59,9 +59,9 @@ class GitChangeLog {
             }
 
             // Adapt result count to number of retrieved results
-            $countStmt = $count ? "-" . $count - sizeof($changelog) : '';
-
+            $countStmt = $count ? "-" . ($count - count($changelog)) : '';
             exec("git log $countStmt $versionStmt", $output);
+
             $parsedLog = self::parseLog($output, $version);
             $changelog = array_merge($changelog, $parsedLog);
 
