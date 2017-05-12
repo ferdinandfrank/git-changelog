@@ -79,11 +79,11 @@ class Commit {
      */
     public function getRemoteLink() {
         if (!self::$remoteUrl) {
-            exec("git remote show origin", $output);
-            if ($output && is_array($output)) {
+            $remoteUrl = exec("git config --get remote.origin.url");
+            if ($remoteUrl) {
 
-                // Remove text "  Fetch URL:  " and ".git"
-                self::$remoteUrl = substr($output[1], 13, -4);
+                // Remove ".git"
+                self::$remoteUrl = substr($remoteUrl, 0, -4);
             }
         }
 
