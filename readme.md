@@ -8,7 +8,7 @@ A simple service to parse the git log of an application to a readable changelog.
 - [Carbon](http://carbon.nesbot.com/) >= 1.18: Used to format the date of the git commits
 
 #### Optional Requirements
-- An existing [Laravel 5.3](https://laravel.com/docs/master/installation) project to use the global view variable `$gitVersion`
+- An existing [>= Laravel 5.3](https://laravel.com/docs/master/installation) project to use the global view variable `$gitVersion`
 
 ## Installation
 
