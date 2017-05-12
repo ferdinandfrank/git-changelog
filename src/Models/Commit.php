@@ -17,6 +17,13 @@ use Carbon\Carbon;
 class Commit {
 
     /**
+     * The remote url of the git repo.
+     *
+     * @var string|null
+     */
+    private static $remoteUrl;
+
+    /**
      * The commit hash.
      *
      * @var string
@@ -71,19 +78,19 @@ class Commit {
      * @return string
      */
     public function getRemoteLink() {
-        exec("git remote show origin", $output);
-        if ($output && is_array($output)) {
+        if (!self::$remoteUrl) {
+            exec("git remote show origin", $output);
+            if ($output && is_array($output)) {
 
-            // Remove text "  Fetch URL:  " and ".git"
-            $fetchUrl = substr($output[1], 13, -4);
-
-            if ($this->id) {
-                return $fetchUrl . '/commit/' . $this->id;
+                // Remove text "  Fetch URL:  " and ".git"
+                self::$remoteUrl = substr($output[1], 13, -4);
             }
-
-            return $fetchUrl;
         }
 
-        return '#';
+        if ($this->id) {
+            return self::$remoteUrl . '/commit/' . $this->id;
+        }
+
+        return self::$remoteUrl;
     }
 }
